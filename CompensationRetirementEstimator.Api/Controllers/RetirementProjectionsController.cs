@@ -1,6 +1,7 @@
 using CompensationRetirementEstimator.Api.Data;
 using CompensationRetirementEstimator.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompensationRetirementEstimator.Api.Controllers;
 
@@ -8,33 +9,29 @@ namespace CompensationRetirementEstimator.Api.Controllers;
 [Route("api/[controller]")]
 public class RetirementProjectionsController : ControllerBase
 {
-    private readonly AppDbContext _db;
+    private readonly AppDbContext _context;
 
-    public RetirementProjectionsController(AppDbContext db)
+    public RetirementProjectionsController(AppDbContext context)
     {
-        _db = db;
+        _context = context;
     }
 
     [HttpPost]
-    public async Task<ActionResult<RetirementProjection>> Create([FromBody] RetirementProjection input)
+    public async Task<IActionResult> Create([FromBody] RetirementProjection projection)
     {
-        // Simple placeholder formula – we’ll refine later
-        var yearsToRetirement = input.RetirementAge - 30; // assume starting age 30 for now
-        var projectedMonthly = (input.ContributionRate + input.EmployerMatchRate) * yearsToRetirement * 100;
-
-        input.ProjectedMonthlyIncome = projectedMonthly;
-
-        _db.RetirementProjections.Add(input);
-        await _db.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetById), new { id = input.Id }, input);
+        _context.RetirementProjections.Add(projection);
+        await _context.SaveChangesAsync();
+        return Ok(projection);
     }
 
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<RetirementProjection>> GetById(int id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
     {
-        var proj = await _db.RetirementProjections.FindAsync(id);
-        if (proj is null) return NotFound();
-        return proj;
+        var projection = await _context.RetirementProjections.FindAsync(id);
+
+        if (projection == null)
+            return NotFound();
+
+        return Ok(projection);
     }
 }
