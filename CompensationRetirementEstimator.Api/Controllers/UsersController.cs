@@ -7,8 +7,7 @@ namespace CompensationRetirementEstimator.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController : ControllerBase
-{
+public class UsersController : ControllerBase {
     private readonly AppDbContext _db;
 
     public UsersController(AppDbContext db)
@@ -66,5 +65,18 @@ public class UsersController : ControllerBase
         _db.Users.Remove(user);
         await _db.SaveChangesAsync();
         return NoContent();
+    }
+
+    [HttpGet("{id}/projections")]
+    public async Task<IActionResult> GetUserProjections(int id) {
+        // Ensure the user exists
+        var user = await _db.Users.FindAsync(id);
+        if (user is null)
+            return NotFound($"User with ID {id} does not exist.");
+        
+        // Fetch all projections for this user
+        var projections = await _db.RetirementProjections.Where(rp => rp.UserId == id).ToListAsync();
+        
+        return Ok(projections);
     }
 }
