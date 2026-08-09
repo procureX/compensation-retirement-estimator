@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5116/api";
+import { API_URL } from "./config";
 
 export interface User {
   id: number;
