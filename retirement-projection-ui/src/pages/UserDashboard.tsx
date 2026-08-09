@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getUsers } from "../api";
-import type { User } from "../api";
+import { getUsers } from "../apis/userApi";
+import type { User } from "../apis/userApi";
 import { Link } from "react-router-dom";
 
 export default function UserDashboard() {
