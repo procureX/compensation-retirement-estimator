@@ -5,6 +5,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<UserDashboard />} />
+      <Route path="/users/:id" element={<div>User Detail Page Coming Soon</div>} />
     </Routes>
   );
 }
