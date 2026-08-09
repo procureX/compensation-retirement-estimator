@@ -23,11 +23,6 @@ export async function getUsers(): Promise<User[]> {
   return res.json();
 }
 
-export async function getUserById(id: number): Promise<User> {
-  const res = await fetch(`${API_URL}/Users/${id}`);
-  return res.json();
-}
-
 export async function getUserProjections(id: number): Promise<Projection[]> {
   const res = await fetch(`${API_URL}/Users/${id}/projections`);
   return res.json();
@@ -48,5 +43,11 @@ export async function createProjection(projection: Partial<Projection>): Promise
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(projection),
   });
+  return res.json();
+}
+
+export async function getUserById(id: number): Promise<User> {
+  const res = await fetch(`${API_URL}/Users/${id}`);
+  if (!res.ok) throw new Error("Failed to fetch user");
   return res.json();
 }
