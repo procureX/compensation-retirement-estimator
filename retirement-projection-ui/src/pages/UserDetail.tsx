@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getUserById } from "../apis/userApi";
+import { getProjectionsForUser } from "../apis/projectionApi";
 import type { User } from "../apis/userApi";
+import ProjectionChart from "../components/ProjectionChart";
 
 export default function UserDetail() {
   const { id } = useParams();
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [projections, setProjections] = useState<any[]>([]);
+  const [projLoading, setProjLoading] = useState(true);
+
+  // Load user
   useEffect(() => {
     if (!id) return;
 
@@ -21,6 +28,21 @@ export default function UserDetail() {
         console.error("User Detail Error:", err);
         setError("Unable to load user.");
         setLoading(false);
+      });
+  }, [id]);
+
+  // Load projections
+  useEffect(() => {
+    if (!id) return;
+
+    getProjectionsForUser(Number(id))
+      .then((data) => {
+        setProjections(data);
+        setProjLoading(false);
+      })
+      .catch((err) => {
+        console.error("Projection Load Error:", err);
+        setProjLoading(false);
       });
   }, [id]);
 
@@ -44,7 +66,37 @@ export default function UserDetail() {
       <hr style={{ margin: "2rem 0" }} />
 
       <h2>Retirement Projections</h2>
-      <p>This is where charts, contributions, and projections will go.</p>
+
+      {projLoading && <p>Loading projections...</p>}
+
+      {!projLoading && projections.length === 0 && (
+        <p>No projections yet.</p>
+      )}
+
+      {!projLoading && projections.length > 0 && (
+        <ul>
+          {projections.map((p) => (
+            <li key={p.id}>
+              Projection #{p.id} — (chart will go here)
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <h2>Retirement Projections</h2>
+      {projLoading && <p>Loading projections...</p>}
+      {!projLoading && projections.length === 0 && (
+        <p>No projections yet.</p>)}
+      {!projLoading && projections.length > 0 && (
+        <div style={{ marginTop: "1rem" }}>
+            {projections.map((p) => (
+                <div key={p.id} style={{ marginBottom: "2rem" }}>
+                    <h3>Projection #{p.id}</h3>
+                    <ProjectionChart years={p.years} balances={p.balances} />
+                </div>
+            ))}
+        </div>
+    )}
 
       <Link
         to={`/users/${user.id}/projections/new`}

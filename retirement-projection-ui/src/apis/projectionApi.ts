@@ -17,3 +17,9 @@ export async function createProjection(input: ProjectionInput) {
   if (!res.ok) throw new Error("Failed to create projection");
   return res.json();
 }
+
+export async function getProjectionsForUser(userId: number) {
+  const res = await fetch(`${API_URL}/Projections/user/${userId}`);
+  if (!res.ok) throw new Error("Failed to load projections");
+  return res.json();
+}
