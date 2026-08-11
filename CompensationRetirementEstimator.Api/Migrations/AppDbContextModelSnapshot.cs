@@ -22,26 +22,25 @@ namespace CompensationRetirementEstimator.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("ContributionRate")
+                    b.Property<decimal>("AnnualContribution")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("EmployerMatchRate")
+                    b.Property<string>("Balances")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("InvestmentGrowthRate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("ProjectedMonthlyIncome")
+                    b.Property<decimal>("ExpectedReturnRate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("RetirementAge")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("RetirementSalary")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Years")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

@@ -1,39 +1,97 @@
-using CompensationRetirementEstimator.Api.Data;
-using CompensationRetirementEstimator.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CompensationRetirementEstimator.Api.Data;
+using CompensationRetirementEstimator.Api.Models;
+using CompensationRetirementEstimator.Api.DTOs;
 
-namespace CompensationRetirementEstimator.Api.Controllers;
+namespace CompensationRetirementEstimator.Api.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class RetirementProjectionsController : ControllerBase
+    {
+        private readonly AppDbContext _db;
 
-[ApiController]
-[Route("api/[controller]")]
-public class RetirementProjectionsController : ControllerBase {
-    private readonly AppDbContext _db;
+        public RetirementProjectionsController(AppDbContext db)
+        {
+            _db = db;
+        }
 
-    public RetirementProjectionsController(AppDbContext db) {
-        _db = db;
-    }
+        // GET: api/RetirementProjections/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RetirementProjection>> Get(int id)
+        {
+            var projection = await _db.RetirementProjections
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-    [HttpPost]
-    public async Task<ActionResult<RetirementProjection>> Create([FromBody] RetirementProjection projection) {
-        // Validate user exists
-        var user = await _db.Users.FindAsync(projection.UserId);
-        if (user is null)
-            return BadRequest($"User with ID {projection.UserId} does not exist.");
+            if (projection is null)
+                return NotFound($"Projection with ID {id} not found.");
 
-        _db.RetirementProjections.Add(projection);
-        await _db.SaveChangesAsync();
+            return Ok(projection);
+        }
 
-        return CreatedAtAction(nameof(Get), new { id = projection.Id }, projection);
-    }
+        // GET: api/RetirementProjections/user/{userId}
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<RetirementProjection>>> GetForUser(int userId)
+        {
+            var projections = await _db.RetirementProjections
+                .Where(p => p.UserId == userId)
+                .ToListAsync();
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id) {
-        var projection = await _db.RetirementProjections.FindAsync(id);
+            return Ok(projections);
+        }
 
-        if (projection == null)
-            return NotFound();
+        // POST: api/RetirementProjections
+        [HttpPost]
+        public async Task<ActionResult<RetirementProjection>> Create([FromBody] CreateProjectionDto dto)
+        {
+            var user = await _db.Users.FindAsync(dto.UserId);
+            if (user is null)
+                return BadRequest($"User with ID {dto.UserId} does not exist.");
 
-        return Ok(projection);
+            var (years, balances) = CalculateProjection(
+                user.Age,
+                dto.RetirementAge,
+                dto.AnnualContribution,
+                dto.ExpectedReturnRate
+            );
+
+            var projection = new RetirementProjection
+            {
+                UserId = dto.UserId,
+                RetirementAge = dto.RetirementAge,
+                AnnualContribution = dto.AnnualContribution,
+                ExpectedReturnRate = dto.ExpectedReturnRate,
+                Years = years,
+                Balances = balances
+            };
+
+            _db.RetirementProjections.Add(projection);
+            await _db.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(Get), new { id = projection.Id }, projection);
+        }
+
+        private (List<int> years, List<decimal> balances) CalculateProjection(
+            int currentAge,
+            int retirementAge,
+            decimal annualContribution,
+            decimal expectedReturnRate)
+        {
+            var years = new List<int>();
+            var balances = new List<decimal>();
+
+            decimal balance = 0;
+
+            for (int age = currentAge; age <= retirementAge; age++)
+            {
+                years.Add(age);
+                balance = (balance + annualContribution) * (1 + expectedReturnRate);
+                balances.Add(balance);
+            }
+
+            return (years, balances);
+        }
     }
 }
