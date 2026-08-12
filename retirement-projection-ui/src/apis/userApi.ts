@@ -24,7 +24,7 @@ export async function getUsers(): Promise<User[]> {
 }
 
 export async function getUserProjections(id: number): Promise<Projection[]> {
-  const res = await fetch(`${API_URL}/Users/${id}/projections`);
+  const res = await fetch(`${API_URL}/RetirementProjections/user/${id}`);
   return res.json();
 }
 

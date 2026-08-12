@@ -39,10 +39,15 @@ export default function ProjectionChart({ years, balances }: ProjectionChartProp
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: "top" as const },
     },
   };
 
-  return <Line data={data} options={options} />;
+  return (
+    <div style={{ height: "400px" }}>
+      <Line data={data} options={options} />
+    </div>
+  );
 }

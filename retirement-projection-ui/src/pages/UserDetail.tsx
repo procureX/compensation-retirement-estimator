@@ -66,37 +66,16 @@ export default function UserDetail() {
       <hr style={{ margin: "2rem 0" }} />
 
       <h2>Retirement Projections</h2>
-
-      {projLoading && <p>Loading projections...</p>}
-
-      {!projLoading && projections.length === 0 && (
-        <p>No projections yet.</p>
-      )}
-
-      {!projLoading && projections.length > 0 && (
-        <ul>
-          {projections.map((p) => (
-            <li key={p.id}>
-              Projection #{p.id} — (chart will go here)
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <h2>Retirement Projections</h2>
-      {projLoading && <p>Loading projections...</p>}
-      {!projLoading && projections.length === 0 && (
-        <p>No projections yet.</p>)}
       {!projLoading && projections.length > 0 && (
         <div style={{ marginTop: "1rem" }}>
-            {projections.map((p) => (
-                <div key={p.id} style={{ marginBottom: "2rem" }}>
-                    <h3>Projection #{p.id}</h3>
-                    <ProjectionChart years={p.years} balances={p.balances} />
-                </div>
-            ))}
+          {projections.map((p) => (
+            <div key={p.id} style={{ marginBottom: "2rem", minHeight: "300px" }}>
+              <h3>Projection #{p.id}</h3>
+              <ProjectionChart years={p.years} balances={p.balances} />
+            </div>
+          ))}
         </div>
-    )}
+      )}
 
       <Link
         to={`/users/${user.id}/projections/new`}

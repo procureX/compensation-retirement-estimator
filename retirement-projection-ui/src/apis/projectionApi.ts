@@ -8,7 +8,7 @@ export interface ProjectionInput {
 }
 
 export async function createProjection(input: ProjectionInput) {
-  const res = await fetch(`${API_URL}/Projections`, {
+  const res = await fetch(`${API_URL}/RetirementProjections`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
@@ -19,7 +19,8 @@ export async function createProjection(input: ProjectionInput) {
 }
 
 export async function getProjectionsForUser(userId: number) {
-  const res = await fetch(`${API_URL}/Projections/user/${userId}`);
+  const res = await fetch(`${API_URL}/Users/${userId}/projections`);
   if (!res.ok) throw new Error("Failed to load projections");
   return res.json();
 }
+
