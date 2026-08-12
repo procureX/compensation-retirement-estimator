@@ -2,6 +2,7 @@ using CompensationRetirementEstimator.Api.Data;
 using CompensationRetirementEstimator.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CompensationRetirementEstimator.Api.DTOs;
 
 namespace CompensationRetirementEstimator.Api.Controllers;
 
@@ -17,12 +18,19 @@ public class UsersController : ControllerBase {
 
     // CREATE
     [HttpPost]
-    public async Task<ActionResult<User>> Create([FromBody] User user)
-    {
+    public async Task<ActionResult<User>> Create([FromBody] CreateUserDto dto) {
+        var user = new User {
+            Name = dto.Name,
+            Age = dto.Age,
+            CurrentSalary = dto.CurrentSalary
+        };
+
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
+        
         return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
     }
+
 
     // READ ALL
     [HttpGet]
