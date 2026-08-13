@@ -26,6 +26,10 @@ export default function UserDashboard() {
       <h1>User Dashboard</h1>
       <p>Select a user to view retirement projections.</p>
 
+      <Link to="/users/new">
+        <button>Create User</button>
+      </Link>
+
       <div
         style={{
           marginTop: "2rem",
