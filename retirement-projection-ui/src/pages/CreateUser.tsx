@@ -5,7 +5,8 @@ import { createUser } from "../apis/userApi";
 export default function CreateUser() {
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [age, setAge] = useState(18);
   const [currentSalary, setSalary] = useState(50000);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +15,7 @@ export default function CreateUser() {
     e.preventDefault();
 
     try {
-      const user = await createUser({ name, age, currentSalary });
+      const user = await createUser({ firstName, lastName, age, currentSalary });
       navigate(`/users/${user.id}`);
     } catch {
       setError("Failed to create user.");
@@ -28,8 +29,13 @@ export default function CreateUser() {
 
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "400px" }}>
         <label>
-          Name:
-          <input value={name} onChange={(e) => setName(e.target.value)} required />
+          First Name:
+          <input value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+        </label>
+
+        <label>
+          Last Name:
+          <input value={lastName} onChange={(e) => setLastName(e.target.value)} required />
         </label>
 
         <label>

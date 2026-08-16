@@ -51,7 +51,7 @@ export default function UserDashboard() {
               background: "#f9f9f9",
             }}
           >
-            <h3>{u.name}</h3>
+            <h3>{u.firstName} {u.lastName}</h3>
             <p>Age: {u.age}</p>
             <p>Salary: ${u.currentSalary.toLocaleString()}</p>
           </Link>

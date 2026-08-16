@@ -56,7 +56,7 @@ export default function UserDetail() {
         ← Back to Dashboard
       </Link>
 
-      <h1>{user.name}</h1>
+      <h1>{user.firstName} {user.lastName}</h1>
 
       <div style={{ marginTop: "1rem" }}>
         <p><strong>Age:</strong> {user.age}</p>

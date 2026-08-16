@@ -2,7 +2,8 @@ import { API_URL } from "./config";
 
 export interface User {
   id: number;
-  name: string;
+  firstName: string;
+  lastName: string;
   age: number;
   currentSalary: number;
 }
