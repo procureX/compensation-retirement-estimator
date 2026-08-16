@@ -20,7 +20,8 @@ public class UsersController : ControllerBase {
     [HttpPost]
     public async Task<ActionResult<User>> Create([FromBody] CreateUserDto dto) {
         var user = new User {
-            Name = dto.Name,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
             Age = dto.Age,
             CurrentSalary = dto.CurrentSalary
         };
@@ -55,7 +56,8 @@ public class UsersController : ControllerBase {
         var user = await _db.Users.FindAsync(id);
         if (user is null) return NotFound();
 
-        user.Name = updated.Name;
+        user.FirstName = updated.FirstName;
+        user.LastName = updated.LastName;
         user.Age = updated.Age;
         user.CurrentSalary = updated.CurrentSalary;
 
