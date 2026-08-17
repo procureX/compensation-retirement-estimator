@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace CompensationRetirementEstimator.Api.Migrations
+namespace RetirementProjectionCalculator.Api.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -16,7 +16,8 @@ namespace CompensationRetirementEstimator.Api.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
                     Age = table.Column<int>(type: "INTEGER", nullable: false),
                     CurrentSalary = table.Column<decimal>(type: "TEXT", nullable: false)
                 },

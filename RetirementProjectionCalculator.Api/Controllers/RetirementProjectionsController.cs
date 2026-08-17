@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CompensationRetirementEstimator.Api.Data;
-using CompensationRetirementEstimator.Api.Models;
-using CompensationRetirementEstimator.Api.DTOs;
+using RetirementProjectionCalculator.Api.Data;
+using RetirementProjectionCalculator.Api.Models;
+using RetirementProjectionCalculator.Api.DTOs;
 
-namespace CompensationRetirementEstimator.Api.Controllers
-{
+namespace RetirementProjectionCalculator.Api.Controllers {
     [ApiController]
     [Route("api/[controller]")]
     public class RetirementProjectionsController : ControllerBase

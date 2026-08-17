@@ -1,7 +1,7 @@
-using CompensationRetirementEstimator.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using RetirementProjectionCalculator.Api.Models;
 
-namespace CompensationRetirementEstimator.Api.Data;
+namespace RetirementProjectionCalculator.Api.Data;
 
 public class AppDbContext : DbContext {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }

@@ -1,5 +1,5 @@
-using CompensationRetirementEstimator.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using RetirementProjectionCalculator.Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

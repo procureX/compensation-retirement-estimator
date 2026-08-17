@@ -1,4 +1,4 @@
-namespace CompensationRetirementEstimator.Api.DTOs {
+namespace RetirementProjectionCalculator.Api.DTOs {
     public class CreateProjectionDto {
         public int UserId { get; set; }
         public int RetirementAge { get; set; }

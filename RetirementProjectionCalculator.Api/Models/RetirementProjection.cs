@@ -1,4 +1,4 @@
-namespace CompensationRetirementEstimator.Api.Models;
+namespace RetirementProjectionCalculator.Api.Models;
 
 public class RetirementProjection {
     public int Id { get; set; }

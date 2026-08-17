@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompensationRetirementEstimator.Api", "CompensationRetirementEstimator.Api\CompensationRetirementEstimator.Api.csproj", "{9BB7E57E-FC87-4D0C-90AE-B1483664065F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetirementProjectionCalculator.Api", "RetirementProjectionCalculator.Api\RetirementProjectionCalculator.Api.csproj", "{9BB7E57E-FC87-4D0C-90AE-B1483664065F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
